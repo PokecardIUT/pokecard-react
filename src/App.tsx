@@ -1,11 +1,12 @@
 import * as React from "react";
 import "./App.css";
+import ListDeck from "./features/list-decks/ListDeck";
 
 class App extends React.Component {
   public render() {
     return (
-      <div className="App">
-        <p>Make Component</p>
+      <div>
+        <ListDeck />
       </div>
     );
   }
