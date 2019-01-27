@@ -1,17 +1,27 @@
 import * as React from "react";
+import {Redirect} from "react-router-dom"
 import "./list-deck.css";
 
+
 interface IMyState {
+  cardRedirect: boolean;
   listSets: any[];
 }
 
 class ListDecks extends React.Component<{}, IMyState> {
   public static API_URL_SETS = "https://api.pokemontcg.io/v1/sets";
+  public codeSets: {id:string};
+
   constructor(props: any) {
     super(props);
     this.state = {
+      cardRedirect: false,
       listSets: []
     };
+
+    this.codeSets = {
+      id: ""
+    }
   }
 
   public componentDidMount() {
@@ -20,10 +30,14 @@ class ListDecks extends React.Component<{}, IMyState> {
 
   public render(): any {
     return (
+
+      this.state.cardRedirect ?
+      <Redirect to={{ pathname: "/card", search: `?setCode=${this.codeSets.id}` }} push/> :
+
       <div className="container">
         {this.state.listSets.map(res => {
           return (
-            <div className="cell" key={res.code}>
+            <div className="cell" key={res.code} onClick={() => this.onClickCell(res.code)}>
               <div className="container-logo">
                 <img className="logo" src={res.logoUrl} />
               </div>
@@ -47,6 +61,13 @@ class ListDecks extends React.Component<{}, IMyState> {
         this.setState({ listSets: listSetsByDate });
       });
   }
+
+
+  private onClickCell(code : string): void {
+    this.codeSets.id = code
+    this.setState({cardRedirect: true});
+  }
+
 }
 
 export default ListDecks;

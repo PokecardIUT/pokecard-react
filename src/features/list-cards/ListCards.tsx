@@ -2,6 +2,7 @@ import * as React from "react";
 import "./list-cards.css";
 
 interface IMyState {
+  codeSets: string;
   listCards: any[];
 }
 
@@ -10,13 +11,17 @@ class ListCards extends React.Component<{}, IMyState> {
 
   constructor(props: any) {
     super(props);
+    const params = new URLSearchParams(props.location.search)
+
     this.state = {
-      listCards: []
+      codeSets: params.get("setCode") ? params.get("setCode")! : "",
+      listCards: [],
     };
+       
   }
 
   public componentDidMount() {
-    this.getCards();
+    this.getCardsBySets();
   }
 
   public render(): any {
@@ -24,7 +29,7 @@ class ListCards extends React.Component<{}, IMyState> {
       <div className="container">
         {this.state.listCards.map(res => {
           return (
-            <div className="cell" key={res.id}>
+            <div className="cellule" key={res.id}>
               <img src={res.imageUrl} />
             </div>
           );
@@ -33,12 +38,13 @@ class ListCards extends React.Component<{}, IMyState> {
     );
   }
 
-  private getCards(): void {
-    fetch(ListCards.API_URL_CARDS)
+  private getCardsBySets(): void {
+    const url = `${ListCards.API_URL_CARDS}?setCode=${this.state.codeSets}&pageSize=1000`
+    fetch(url)
       .then(results => results.json())
       .then(data => {
-        this.setState({ listCards: data.cards });
-        console.log(this.state);
+        console.log(data.cards.length)
+        this.setState({ listCards: data.cards});
       });
   }
 }
