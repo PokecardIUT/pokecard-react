@@ -1,45 +1,103 @@
-.container{
-    text-align: center;
+.container {
+  text-align: center;
 }
 
 .cell {
-    width: 300px;
-    min-height: 250px;
-    max-height: 250px;
-    display: inline-block;
-    box-shadow: 7px 7px 5px grey;
-    border: solid 0.5px grey;
-    margin: 15px 3% 15px 3%;
-    padding: 1.5em 1em 1em 1em;
-    cursor: pointer;
-    transition-duration: 0.5s
+  width: 300px;
+  min-height: 250px;
+  max-height: 250px;
+  display: inline-block;
+  box-shadow: 7px 7px 5px grey;
+  border: solid 0.5px grey;
+  margin: 15px 3% 15px 3%;
+  padding: 1.5em 1em 1em 1em;
+  cursor: pointer;
+  transition-duration: 0.5s;
 }
 
 .cell:hover {
-    background-color: rgb(223, 223, 223); 
-    transform: scale(1.1);
-    transition-duration: 0.5s
+  background-color: rgb(223, 223, 223);
+  transform: scale(1.1);
+  transition-duration: 0.5s;
 }
-
-
 
 .container-info {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
-.info-name{
-    font-size: 30px;
-    text-overflow: ellipsis; 
-    overflow: hidden; 
-    white-space: nowrap;
+.info-name {
+  font-size: 30px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .container-logo {
-    margin-top: 5px;
-    height: 140px;
+  margin-top: 5px;
+  height: 140px;
 }
 
 .logo {
-   max-height: 100%;
-   max-width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.search-form {
+  margin-left: 50%;
+  width: 75%;
+  height: 40px;
+  border-radius: 40px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  background: lightgray;
+  transform: translate(-50%, 0);
+}
+
+.search-form:focus {
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
+}
+
+.search-input {
+  position: absolute;
+  top: 10px;
+  left: 48px;
+  font-size: 14px;
+  background: none;
+  color: #5a6674;
+  width: 95%;
+  height: 20px;
+  border: none;
+  appearance: none;
+  outline: none;
+}
+
+.search-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.search-button {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  outline: none !important;
+  cursor: pointer;
+}
+
+.spinner {
+  position: fixed;
+  z-index: 1031;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.empty {
+    font-size: 55px;
+    color: gray;
+    margin-top: 20px;
 }
