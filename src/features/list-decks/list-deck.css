@@ -1,0 +1,45 @@
+.container{
+    text-align: center;
+}
+
+.cell {
+    width: 300px;
+    min-height: 250px;
+    max-height: 250px;
+    display: inline-block;
+    box-shadow: 7px 7px 5px grey;
+    border: solid 0.5px grey;
+    margin: 15px 3% 15px 3%;
+    padding: 1.5em 1em 1em 1em;
+    cursor: pointer;
+    transition-duration: 0.5s
+}
+
+.cell:hover {
+    background-color: rgb(223, 223, 223); 
+    transform: scale(1.1);
+    transition-duration: 0.5s
+}
+
+
+
+.container-info {
+    margin-top: 20px;
+}
+
+.info-name{
+    font-size: 30px;
+    text-overflow: ellipsis; 
+    overflow: hidden; 
+    white-space: nowrap;
+}
+
+.container-logo {
+    margin-top: 5px;
+    height: 140px;
+}
+
+.logo {
+   max-height: 100%;
+   max-width: 100%;
+}
