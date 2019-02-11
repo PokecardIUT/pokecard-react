@@ -18,6 +18,21 @@
   font-size: 1.5em;
 }
 
+.navbar {
+  background-color: #056BB3;
+  width: 100%;
+  height: auto;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.navbar-brand {
+  color: #fff;
+  margin: 15px;
+  text-decoration: none;
+  display: inline-block;
+}
+
 .App-intro {
   font-size: large;
 }
