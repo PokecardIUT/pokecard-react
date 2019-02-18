@@ -86,8 +86,6 @@ class ListDecks extends React.Component<{}, IMyState> {
   }
 
   private change(event: React.ChangeEvent<HTMLInputElement>): void {
-    console.log(event.currentTarget.value);
-
     const listFilter: ISets[] = [];
     this.state.listSets.map(element => {
       const name = element.name.toLowerCase();

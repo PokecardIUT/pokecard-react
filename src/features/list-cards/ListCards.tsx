@@ -96,12 +96,9 @@ class ListCards extends React.Component<{}, IMyState> {
   }
 
   private change(event: React.ChangeEvent<HTMLInputElement>): void {
-    console.log(event.currentTarget.value);
-
     const listFilter: ICards[] = [];
     this.state.listCards.map(element => {
       const name = element.name.toLowerCase();
-      console.log(element.name);
       if (name.includes(event.currentTarget.value.toLowerCase())) {
         listFilter.push(element);
       }
@@ -116,7 +113,6 @@ class ListCards extends React.Component<{}, IMyState> {
     fetch(url)
       .then(results => results.json())
       .then(data => {
-        console.log(data.cards.length);
         this.setState({
           listCards: data.cards,
           listSearch: data.cards,
