@@ -9,7 +9,7 @@ class App extends React.Component {
   public render() {
     return (
       <div>
-        <Navbar bg="navbar" variant="dark">
+        <Navbar className="margin-b" bg="navbar" variant="dark">
           <Navbar.Brand href="/">PokecardAppReact</Navbar.Brand>
         </Navbar>
         <Switch>
