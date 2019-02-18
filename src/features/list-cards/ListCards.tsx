@@ -34,7 +34,7 @@ class ListCards extends React.Component<{}, IMyState> {
 
   get focusedCard() {
     return this.state.listCards.find(
-      (element: any): any => this.state.focus === element.id
+      (element): boolean => this.state.focus === element.id
     );
   }
 
