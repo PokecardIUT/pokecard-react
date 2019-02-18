@@ -1,8 +1,8 @@
 import * as React from "react";
-import { FaSearch } from "react-icons/fa";
 import { Redirect } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { ISets } from "../../model/Sets";
+import { SearchBar } from '../components/search-bar/SearchBar';
 import "./list-deck.css";
 
 interface IMyState {
@@ -42,15 +42,7 @@ class ListDecks extends React.Component<{}, IMyState> {
       />
     ) : (
       <div className="container">
-        <div className="search-form">
-          <FaSearch className="search-button" />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Recherche"
-            onChange={e => this.change(e)}
-          />
-        </div>
+        <SearchBar onChange={ (e:string) =>  this.change(e) }/>
         {this.state.listSearch.length > 0 ? (
           this.state.listSearch.map(res => {
             return (
@@ -85,13 +77,11 @@ class ListDecks extends React.Component<{}, IMyState> {
     );
   }
 
-  private change(event: React.ChangeEvent<HTMLInputElement>): void {
-    console.log(event.currentTarget.value);
-
+  private change(event: string): void {
     const listFilter: ISets[] = [];
     this.state.listSets.map(element => {
       const name = element.name.toLowerCase();
-      if (name.includes(event.currentTarget.value.toLowerCase())) {
+      if (name.includes(event.toLowerCase())) {
         listFilter.push(element);
       }
     });
