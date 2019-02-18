@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
 import { ICards } from "../../model/Cards";
 import "./list-cards.css";
@@ -73,6 +73,7 @@ class ListCards extends React.Component<{}, IMyState> {
               this.setState({ focus: null });
             }}
           >
+            <FaTimes className="close-button" />
             <div className="popup_inner">
               <img
                 className="popup-img"

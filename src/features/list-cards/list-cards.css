@@ -61,6 +61,16 @@
   cursor: pointer;
 }
 
+.close-button {
+  position: absolute;
+  right: 0px;
+  height: 50px;
+  width: 50px;
+  padding: 0;
+  color: white;
+  cursor: pointer;
+}
+
 .spinner {
   position: fixed;
   z-index: 1031;
