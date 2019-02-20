@@ -55,7 +55,6 @@ class ListCards extends React.Component<{}, IMyState> {
         const url = `${ListCards.API_URL_CARDS}?setCode=${
           this.state.codeSets
         }&pageSize=20&page=${this.state.currentPage + 1}&name=${this.state.currentName}`;
-        console.log(url);
         fetch(url)
           .then(results => {
             return results.json();
@@ -67,7 +66,6 @@ class ListCards extends React.Component<{}, IMyState> {
               showLoading: false,
               showSpinner: false
             }));
-            console.log(this.state);
           });
       }
     }
