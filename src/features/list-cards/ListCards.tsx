@@ -1,9 +1,11 @@
 import * as React from "react";
-import { FaTimes } from "react-icons/fa";
 import { ClipLoader, PulseLoader } from "react-spinners";
 import Waypoint from "react-waypoint";
 import { ICards } from "../../model/Cards";
+import { NoElement } from '../components/no-element/NoElement';
 import { SearchBar } from "../components/search-bar/SearchBar";
+import { CardCell } from './components/CardCell';
+import { PopupCard } from './components/PopupCard';
 import "./list-cards.css";
 
 interface IMyState {
@@ -18,6 +20,12 @@ interface IMyState {
 }
 
 class ListCards extends React.Component<{}, IMyState> {
+
+  get focusedCard() {
+    return this.state.listCards.find(
+      (element): boolean => this.state.focus === element.id
+    );
+  }
   private static API_URL_CARDS = "https://api.pokemontcg.io/v1/cards";
 
   constructor(props: any) {
@@ -38,12 +46,6 @@ class ListCards extends React.Component<{}, IMyState> {
 
   public componentDidMount() {
     this.getCardsBySets();
-  }
-
-  get focusedCard() {
-    return this.state.listCards.find(
-      (element): boolean => this.state.focus === element.id
-    );
   }
 
   public fetchMore(): void {
@@ -78,35 +80,14 @@ class ListCards extends React.Component<{}, IMyState> {
         {this.state.listCards.length > 0 ? (
           this.state.listCards.map(res => {
             return (
-              <div className="cellule" key={res.id}>
-                <img
-                  src={res.imageUrl}
-                  onClick={() => {
-                    this.setState({ focus: res.id });
-                  }}
-                />
-              </div>
+              <CardCell key={res.id} card={res} onClick={(id: string) => {this.setState({focus: id})}}/>
             );
           })
         ) : this.state.showSpinner === false ? (
-          <div className="empty"> Aucun élément trouvé </div>
+          <NoElement/>
         ) : null}
         {this.focusedCard !== undefined ? (
-          <div
-            className="popup"
-            onClick={() => {
-              this.setState({ focus: null });
-            }}
-          >
-            <FaTimes className="close-button" />
-            <div className="popup_inner">
-              <img
-                className="popup-img"
-                src={this.focusedCard.imageUrlHiRes}
-                height="100%"
-              />
-            </div>
-          </div>
+          <PopupCard card={this.focusedCard} onClick={(cancel: null) => {this.setState({focus: cancel})}} />
         ) : null}
         <Waypoint onEnter={() => this.fetchMore()} />
         <PulseLoader
@@ -184,6 +165,8 @@ class ListCards extends React.Component<{}, IMyState> {
         });
       });
   }
+
+  
 }
 
 export default ListCards;
