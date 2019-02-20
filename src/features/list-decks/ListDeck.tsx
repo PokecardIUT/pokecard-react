@@ -1,8 +1,10 @@
 import * as React from "react";
-import { FaSearch } from "react-icons/fa";
 import { Redirect } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { ISets } from "../../model/Sets";
+import { NoElement } from "../components/no-element/NoElement";
+import { SearchBar } from "../components/search-bar/SearchBar";
+import { CellDeck } from "./components/CellDeck";
 import "./list-deck.css";
 
 interface IMyState {
@@ -42,35 +44,21 @@ class ListDecks extends React.Component<{}, IMyState> {
       />
     ) : (
       <div className="container">
-        <div className="search-form">
-          <FaSearch className="search-button" />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Recherche"
-            onChange={e => this.change(e)}
-          />
-        </div>
+        <SearchBar onChange={(e: string) => this.change(e)} />
         {this.state.listSearch.length > 0 ? (
           this.state.listSearch.map(res => {
             return (
-              <div
-                className="cell"
+              <CellDeck
                 key={res.code}
-                onClick={() => this.onClickCell(res.code)}
-              >
-                <div className="container-logo">
-                  <img className="logo" src={res.logoUrl} />
-                </div>
-                <div className="container-info">
-                  <p className="info-name">{res.name}</p>
-                  <p>{res.releaseDate}</p>
-                </div>
-              </div>
+                set={res}
+                onClick={(id: string) => {
+                  this.onClickCell(id);
+                }}
+              />
             );
           })
         ) : this.state.showSpinner === false ? (
-          <div className="empty"> Aucun élément trouvé </div>
+          <NoElement />
         ) : null}
 
         <div className="spinner">
@@ -85,13 +73,11 @@ class ListDecks extends React.Component<{}, IMyState> {
     );
   }
 
-  private change(event: React.ChangeEvent<HTMLInputElement>): void {
-    console.log(event.currentTarget.value);
-
+  private change(event: string): void {
     const listFilter: ISets[] = [];
     this.state.listSets.map(element => {
       const name = element.name.toLowerCase();
-      if (name.includes(event.currentTarget.value.toLowerCase())) {
+      if (name.includes(event.toLowerCase())) {
         listFilter.push(element);
       }
     });
