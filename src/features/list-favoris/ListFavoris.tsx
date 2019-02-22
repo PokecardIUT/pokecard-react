@@ -5,11 +5,8 @@ import { ICards } from "../../model/Cards";
 import { CardCell } from "../components/cardcell/CardCell";
 import { NoElement } from "../components/no-element/NoElement";
 import { PopupCard } from "../components/popupcard/PopupCard";
-import { SearchBar } from "../components/search-bar/SearchBar";
-import "./list-cards.css";
 
 interface IMyState {
-  codeSets: string;
   listCards: ICards[];
   showSpinner: boolean;
   focus: string | null;
@@ -20,23 +17,20 @@ interface IMyState {
   favoris: string[];
 }
 
-class ListCards extends React.Component<{}, IMyState> {
-  get focusedCard() {
-    return this.state.listCards.find(
-      (element): boolean => this.state.focus === element.id
-    );
-  }
+export class ListFavori extends React.Component<{}, IMyState> {
   private static API_URL_CARDS = "https://api.pokemontcg.io/v1/cards";
 
   constructor(props: any) {
     super(props);
-    const params = new URLSearchParams(props.location.search);
 
     this.state = {
-      codeSets: params.get("setCode") ? params.get("setCode")! : "",
       currentName: "",
       currentPage: 1,
-      favoris: JSON.parse(localStorage.getItem("favoris") ? localStorage.getItem("favoris")! : "[]" ),
+      favoris: JSON.parse(
+        localStorage.getItem("favoris")
+          ? localStorage.getItem("favoris")!
+          : "[]"
+      ),
       focus: null,
       listCards: [],
       maxPage: 0,
@@ -46,30 +40,29 @@ class ListCards extends React.Component<{}, IMyState> {
   }
 
   public componentDidMount() {
-    this.getCardsBySets();
+    this.getCardById();
   }
 
-  public fetchMore(): void {
-    if (!this.state.showSpinner) {
-      if (this.state.currentPage + 1 <= this.state.maxPage) {
-        this.setState({ showLoading: true });
-        const url = `${ListCards.API_URL_CARDS}?setCode=${
-          this.state.codeSets
-        }&pageSize=20&page=${this.state.currentPage + 1}&name=${
-          this.state.currentName
+  public getCardById() {
+    for (let i = 0; i < 20; i++) {
+      if (this.state.favoris[i]) {
+        const url = `${ListFavori.API_URL_CARDS}?id=${
+          this.state.favoris[i]
         }`;
+        console.log(url)
         fetch(url)
-          .then(results => {
-            return results.json();
-          })
+          .then(results => results.json())
           .then(data => {
             this.setState(state => ({
-              currentPage: state.currentPage + 1,
+              currentPage: 1,
               listCards: [...state.listCards, ...data.cards],
-              showLoading: false,
-              showSpinner: false
+              maxPage: Math.ceil(this.state.favoris.length / 20)
             }));
+           
           });
+      }
+      if (i === 19) {
+        this.setState({ showSpinner: false });
       }
     }
   }
@@ -99,10 +92,44 @@ class ListCards extends React.Component<{}, IMyState> {
     console.log(localStorage.getItem("favoris"))
   }
 
+  get focusedCard() {
+    return this.state.listCards.find(
+      (element): boolean => this.state.focus === element.id
+    );
+  }
+
+  public fetchMore(): void {
+    if (!this.state.showSpinner) {
+        let compter = this.state.currentPage
+      if (this.state.currentPage + 1 <= this.state.maxPage) {
+        this.setState({ showLoading: true });
+        for(let i = 20*compter; i< 20*compter+20; i++){
+            if(this.state.favoris[i]){
+            const url = `${ListFavori.API_URL_CARDS}?id=${
+                this.state.favoris[i]
+              }`;
+              fetch(url)
+                .then(results => {
+                  return results.json();
+                })
+                .then(data => {
+                  this.setState(state => ({
+                    listCards: [...state.listCards, ...data.cards],
+                  }));
+                  compter++;
+                });
+            }
+            if(i === (20*this.state.currentPage+20)-1){
+                this.setState(state => ({showLoading: false, currentPage: state.currentPage + 1}))
+            }
+        }
+      }
+    }
+  }
+
   public render(): any {
     return (
       <div className="container">
-        <SearchBar onChange={(e: string) => this.change(e)} />
         {this.state.listCards.length > 0 ? (
           this.state.listCards.map(res => {
             return (
@@ -148,64 +175,4 @@ class ListCards extends React.Component<{}, IMyState> {
       </div>
     );
   }
-
-  private change(event: string): void {
-    this.setState({ currentName: event });
-    this.getCardsByName(event);
-  }
-
-  private getCardsByName(name: string): void {
-    let pageSize = 0;
-    let totalCard = 0;
-    const url = `${ListCards.API_URL_CARDS}?setCode=${
-      this.state.codeSets
-    }&pageSize=20&name=${name}`;
-    fetch(url)
-      .then(results => {
-        results.headers.forEach((val, key) => {
-          if (key === "page-size") {
-            pageSize = Number(val);
-          } else if (key === "total-count") {
-            totalCard = Number(val);
-          }
-        });
-        return results.json();
-      })
-      .then(data => {
-        this.setState({
-          currentPage: 1,
-          listCards: data.cards,
-          maxPage: Math.ceil(totalCard / pageSize),
-          showSpinner: false
-        });
-      });
-  }
-
-  private getCardsBySets(): void {
-    let pageSize = 0;
-    let totalCard = 0;
-    const url = `${ListCards.API_URL_CARDS}?setCode=${
-      this.state.codeSets
-    }&pageSize=20`;
-    fetch(url)
-      .then(results => {
-        results.headers.forEach((val, key) => {
-          if (key === "page-size") {
-            pageSize = Number(val);
-          } else if (key === "total-count") {
-            totalCard = Number(val);
-          }
-        });
-        return results.json();
-      })
-      .then(data => {
-        this.setState({
-          listCards: data.cards,
-          maxPage: Math.round(totalCard / pageSize),
-          showSpinner: false
-        });
-      });
-  }
 }
-
-export default ListCards;

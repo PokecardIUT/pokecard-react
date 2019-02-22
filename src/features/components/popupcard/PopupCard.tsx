@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FaTimes } from "react-icons/fa";
 import { ICards } from "../../../model/Cards";
-import "../list-cards.css";
+import "../../list-cards/list-cards.css";
 
 export class PopupCard extends React.Component<{ card: ICards; onClick: any },{}> {
   constructor(props: any) {
