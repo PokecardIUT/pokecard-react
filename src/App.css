@@ -1,22 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
 
 .navbar {
   background-color: #056BB3;
@@ -33,12 +14,27 @@
   display: inline-block;
 }
 
-.App-intro {
-  font-size: large;
+.navbar-brand:hover{
+  color: gray
 }
 
 .margin-b {
   margin-bottom: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+
+.nav-link:hover {
+  color: grey
+}
+
+.favoris-icon{
+  width: 15px;
+  height: 15px;
 }
 
 @keyframes App-logo-spin {
