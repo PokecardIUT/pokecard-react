@@ -88,13 +88,12 @@ class ListDecks extends React.Component<{}, IMyState> {
     fetch(ListDecks.API_URL_SETS)
       .then((res: any) => res.json())
       .then(data => {
-        let listSetsByDate: any = data.sets.sort(
-          (o: any) => new Date(o.releaseDate)
-        );
-        listSetsByDate = listSetsByDate.reverse();
+        let list = Array()
+        list = data.sets
+        list = list.reverse()
         this.setState({
-          listSearch: listSetsByDate,
-          listSets: listSetsByDate,
+          listSearch: list,
+          listSets: list,
           showSpinner: false
         });
       });
